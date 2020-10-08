@@ -109,7 +109,8 @@ workflows:
 
 jobs:
   create_release_pull_request:
-    executor: node-browsers
+    docker:
+      - image: circleci/node:12-buster-browsers
     steps:
       - checkout
       - attach_workspace:
@@ -122,7 +123,8 @@ jobs:
             .circleci/scripts/release-create-release-pr
 
   prep-deps:
-    executor: node-browsers
+    docker:
+      - image: circleci/node:12-buster-browsers
     steps:
       - checkout
       - restore_cache:
@@ -143,7 +145,10 @@ jobs:
           - build-artifacts
 
   prep-build:
-    executor: node-browsers-medium-plus
+    docker:
+      - image: circleci/node:12-buster-browsers
+    environment:
+      NODE_OPTIONS: --max_old_space_size=1024
     steps:
       - checkout
       - attach_workspace:
@@ -161,7 +166,10 @@ jobs:
             - builds
 
   prep-build-test:
-    executor: node-browsers-medium-plus
+    docker:
+      - image: circleci/node:12-buster-browsers
+    environment:
+      NODE_OPTIONS: --max_old_space_size=1024
     steps:
       - checkout
       - attach_workspace:
@@ -203,7 +211,8 @@ jobs:
             - builds-test-metrics
 
   prep-build-storybook:
-    executor: node-browsers
+    docker:
+      - image: circleci/node:12-buster-browsers
     steps:
       - checkout
       - attach_workspace:
@@ -217,7 +226,8 @@ jobs:
             - .out
 
   test-lint:
-    executor: node-browsers
+    docker:
+      - image: circleci/node:12-buster-browsers
     steps:
       - checkout
       - attach_workspace:
@@ -239,7 +249,8 @@ jobs:
           command: ./development/shellcheck.sh
 
   test-lint-lockfile:
-    executor: node-browsers
+    docker:
+      - image: circleci/node:12-buster-browsers
     steps:
       - checkout
       - attach_workspace:
@@ -249,7 +260,8 @@ jobs:
           command: yarn lint:lockfile
 
   test-deps:
-    executor: node-browsers
+    docker:
+      - image: circleci/node:12-buster-browsers
     steps:
       - checkout
       - attach_workspace:
@@ -259,7 +271,8 @@ jobs:
           command: .circleci/scripts/yarn-audit
 
   test-e2e-chrome:
-    executor: node-browsers
+    docker:
+      - image: circleci/node:12-buster-browsers
     steps:
       - checkout
       - attach_workspace:
@@ -307,7 +320,8 @@ jobs:
           destination: test-artifacts
 
   test-e2e-firefox:
-    executor: node-browsers
+    docker:
+      - image: circleci/node:12-buster-browsers
     steps:
       - checkout
       - run:
@@ -361,7 +375,8 @@ jobs:
           destination: test-artifacts
 
   benchmark:
-    executor: node-browsers
+    docker:
+      - image: circleci/node:12-buster-browsers
     steps:
       - checkout
       - attach_workspace:
@@ -384,7 +399,8 @@ jobs:
             - test-artifacts
 
   job-publish-prerelease:
-    executor: node-browsers
+    docker:
+      - image: circleci/node:12-buster-browsers
     steps:
       - checkout
       - attach_workspace:
@@ -412,7 +428,8 @@ jobs:
           command: ./development/metamaskbot-build-announce.js
 
   job-publish-release:
-    executor: node-browsers
+    docker:
+      - image: circleci/node:12-buster-browsers
     steps:
       - checkout
       - attach_workspace:
@@ -429,7 +446,8 @@ jobs:
           command: .circleci/scripts/release-create-master-pr
 
   job-publish-storybook:
-    executor: node-browsers
+    docker:
+      - image: circleci/node:12-buster-browsers
     steps:
       - add_ssh_keys:
           fingerprints:
@@ -444,7 +462,8 @@ jobs:
             yarn storybook:deploy
 
   test-unit:
-    executor: node-browsers
+    docker:
+      - image: circleci/node:12-buster-browsers
     steps:
       - checkout
       - attach_workspace:
@@ -458,7 +477,8 @@ jobs:
             - .nyc_output
             - coverage
   test-unit-global:
-    executor: node-browsers
+    docker:
+      - image: circleci/node:12-buster-browsers
     steps:
       - checkout
       - attach_workspace:
@@ -468,7 +488,8 @@ jobs:
           command: yarn test:unit:global
 
   validate-source-maps:
-    executor: node-browsers
+    docker:
+      - image: circleci/node:12-buster-browsers
     steps:
       - checkout
       - attach_workspace:
@@ -478,7 +499,8 @@ jobs:
           command: yarn validate-source-maps
 
   test-mozilla-lint:
-    executor: node-browsers
+    docker:
+      - image: circleci/node:12-buster-browsers
     steps:
       - checkout
       - attach_workspace:
@@ -488,8 +510,20 @@ jobs:
           command: NODE_OPTIONS=--max_old_space_size=3072 yarn mozilla-lint
 
   all-tests-pass:
-    executor: node-browsers
+    docker:
+      - image: circleci/node:12-buster-browsers
     steps:
       - run:
           name: All Tests Passed
           command: echo 'weew - everything passed!'
+
+  coveralls-upload:
+    docker:
+      - image: circleci/node:12-buster-browsers
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: Coveralls upload
+          command: yarn test:coveralls-upload
