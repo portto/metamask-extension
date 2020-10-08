@@ -1,4 +1,3 @@
-const fs = require('fs')
 const gulp = require('gulp')
 const watch = require('gulp-watch')
 const pify = require('pify')
@@ -12,7 +11,6 @@ const browserify = require('browserify')
 const envify = require('loose-envify/custom')
 const sourcemaps = require('gulp-sourcemaps')
 const terser = require('gulp-terser-js')
-const { makeStringTransform } = require('browserify-transform-tools')
 
 const conf = require('rc')('metamask', {
   INFURA_PROJECT_ID: process.env.INFURA_PROJECT_ID,
@@ -276,15 +274,13 @@ function createScriptTasks({ browserPlatforms, livereload }) {
     }
   }
 
-  function generateBundler (opts, performBundle) {
+  function generateBundler(opts, performBundle) {
     const browserifyOpts = assign({}, watchify.args, {
       plugin: [],
       transform: [],
       debug: true,
       fullPaths: opts.devMode,
     })
-
-    const bundleName = opts.filename.split('.')[0]
 
     if (!opts.buildLib) {
       if (opts.devMode && opts.filename === 'ui.js') {
