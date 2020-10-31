@@ -22,6 +22,7 @@ const IncomingTransactionsController = proxyquire('../../../../app/scripts/contr
 
 const FAKE_CHAIN_ID = '0x1338'
 const MOCK_SELECTED_ADDRESS = '0x0101'
+const SET_STATE_TIMEOUT = 10
 
 function getEmptyInitState () {
   return {
@@ -250,7 +251,7 @@ describe('IncomingTransactionsController', function () {
         initState: getNonEmptyInitState(),
       })
       // reply with a valid request for any supported network, so that this test has every opportunity to fail
-      for (const network of [GOERLI, KOVAN, MAINNET, RINKEBY, ROPSTEN]) {
+      for (const network of [GOERLI, KOVAN, MAINNET, RINKEBY, ROPSTEN, 'undefined']) {
         nock(`https://api${network === MAINNET ? '' : `-${network.toLowerCase()}`}.etherscan.io`)
           .get(/api.+/u)
           .reply(
@@ -273,7 +274,7 @@ describe('IncomingTransactionsController', function () {
           updateStateCalled,
           putStateCalled,
           new Promise((_, reject) => {
-            setTimeout(() => reject(new Error('TIMEOUT')), 1000)
+            setTimeout(() => reject(new Error('TIMEOUT')), SET_STATE_TIMEOUT)
           }),
         ])
         assert.fail('Update state should not have been called')
@@ -290,7 +291,7 @@ describe('IncomingTransactionsController', function () {
         initState: getNonEmptyInitState(),
       })
       // reply with a valid request for any supported network, so that this test has every opportunity to fail
-      for (const network of [GOERLI, KOVAN, MAINNET, RINKEBY, ROPSTEN]) {
+      for (const network of [GOERLI, KOVAN, MAINNET, RINKEBY, ROPSTEN, 'undefined']) {
         nock(`https://api${network === MAINNET ? '' : `-${network.toLowerCase()}`}.etherscan.io`)
           .get(/api.+/u)
           .reply(
@@ -313,7 +314,7 @@ describe('IncomingTransactionsController', function () {
           updateStateCalled,
           putStateCalled,
           new Promise((_, reject) => {
-            setTimeout(() => reject(new Error('TIMEOUT')), 1000)
+            setTimeout(() => reject(new Error('TIMEOUT')), SET_STATE_TIMEOUT)
           }),
         ])
         assert.fail('Update state should not have been called')
@@ -330,7 +331,7 @@ describe('IncomingTransactionsController', function () {
         initState: getNonEmptyInitState(),
       })
       // reply with a valid request for any supported network, so that this test has every opportunity to fail
-      for (const network of [GOERLI, KOVAN, MAINNET, RINKEBY, ROPSTEN]) {
+      for (const network of [GOERLI, KOVAN, MAINNET, RINKEBY, ROPSTEN, 'undefined']) {
         nock(`https://api${network === MAINNET ? '' : `-${network.toLowerCase()}`}.etherscan.io`)
           .get(/api.+/u)
           .reply(
@@ -351,7 +352,7 @@ describe('IncomingTransactionsController', function () {
           updateStateCalled,
           putStateCalled,
           new Promise((_, reject) => {
-            setTimeout(() => reject(new Error('TIMEOUT')), 1000)
+            setTimeout(() => reject(new Error('TIMEOUT')), SET_STATE_TIMEOUT)
           }),
         ])
         assert.fail('Update state should not have been called')
@@ -368,7 +369,7 @@ describe('IncomingTransactionsController', function () {
         initState: getNonEmptyInitState(),
       })
       // reply with a valid request for any supported network, so that this test has every opportunity to fail
-      for (const network of [GOERLI, KOVAN, MAINNET, RINKEBY, ROPSTEN]) {
+      for (const network of [GOERLI, KOVAN, MAINNET, RINKEBY, ROPSTEN, 'undefined']) {
         nock(`https://api${network === MAINNET ? '' : `-${network.toLowerCase()}`}.etherscan.io`)
           .get(/api.+/u)
           .reply(
@@ -391,7 +392,7 @@ describe('IncomingTransactionsController', function () {
           updateStateCalled,
           putStateCalled,
           new Promise((_, reject) => {
-            setTimeout(() => reject(new Error('TIMEOUT')), 1000)
+            setTimeout(() => reject(new Error('TIMEOUT')), SET_STATE_TIMEOUT)
           }),
         ])
         assert.fail('Update state should not have been called')
@@ -476,7 +477,7 @@ describe('IncomingTransactionsController', function () {
       })
       const NEW_MOCK_SELECTED_ADDRESS = `${MOCK_SELECTED_ADDRESS}9`
       // reply with a valid request for any supported network, so that this test has every opportunity to fail
-      for (const network of [GOERLI, KOVAN, MAINNET, RINKEBY, ROPSTEN]) {
+      for (const network of [GOERLI, KOVAN, MAINNET, RINKEBY, ROPSTEN, 'undefined']) {
         nock(`https://api${network === MAINNET ? '' : `-${network.toLowerCase()}`}.etherscan.io`)
           .get(/api.+/u)
           .reply(
@@ -504,7 +505,7 @@ describe('IncomingTransactionsController', function () {
           updateStateCalled,
           putStateCalled,
           new Promise((_, reject) => {
-            setTimeout(() => reject(new Error('TIMEOUT')), 1000)
+            setTimeout(() => reject(new Error('TIMEOUT')), SET_STATE_TIMEOUT)
           }),
         ])
         assert.fail('Update state should not have been called')
@@ -585,7 +586,7 @@ describe('IncomingTransactionsController', function () {
         initState: getNonEmptyInitState(),
       })
       // reply with a valid request for any supported network, so that this test has every opportunity to fail
-      for (const network of [GOERLI, KOVAN, MAINNET, RINKEBY, ROPSTEN]) {
+      for (const network of [GOERLI, KOVAN, MAINNET, RINKEBY, ROPSTEN, 'undefined']) {
         nock(`https://api${network === MAINNET ? '' : `-${network.toLowerCase()}`}.etherscan.io`)
           .get(/api.+/u)
           .reply(
@@ -611,7 +612,7 @@ describe('IncomingTransactionsController', function () {
           updateStateCalled,
           putStateCalled,
           new Promise((_, reject) => {
-            setTimeout(() => reject(new Error('TIMEOUT')), 1000)
+            setTimeout(() => reject(new Error('TIMEOUT')), SET_STATE_TIMEOUT)
           }),
         ])
         assert.fail('Update state should not have been called')
