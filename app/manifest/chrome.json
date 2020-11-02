@@ -1,4 +1,4 @@
 {
-  "minimum_chrome_version": "58",
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "minimum_chrome_version": "58"
 }
