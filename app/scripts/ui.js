@@ -1,5 +1,5 @@
 
-// this must run before anything else
+import freezeIntrinsics from './lib/freezeIntrinsics'
 
 // polyfills
 import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'
@@ -39,7 +39,7 @@ async function start () {
     getState: () => window.getSentryState?.() || {},
   })
 
-  require('./lib/freezeGlobals')
+  freezeIntrinsics()
 
   // identify window type (popup, notification)
   const windowType = getEnvironmentType()
