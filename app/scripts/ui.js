@@ -39,6 +39,8 @@ async function start () {
     getState: () => window.getSentryState?.() || {},
   })
 
+  require('./lib/freezeGlobals')
+
   // identify window type (popup, notification)
   const windowType = getEnvironmentType()
 
@@ -73,8 +75,6 @@ async function start () {
     })
   }
 }
-
-import './lib/freezeGlobals'
 
 async function queryCurrentActiveTab (windowType) {
   return new Promise((resolve) => {
