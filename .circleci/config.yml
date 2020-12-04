@@ -192,7 +192,11 @@ jobs:
             - builds-test
 
   prep-build-test-metrics:
-    executor: node-browsers-medium-plus
+    docker:
+      - image: circleci/node:14-browsers
+    resource_class: medium+
+    environment:
+      NODE_OPTIONS: --max_old_space_size=2048
     steps:
       - checkout
       - attach_workspace:
@@ -304,7 +308,8 @@ jobs:
           destination: test-artifacts
 
   test-e2e-chrome-metrics:
-    executor: node-browsers
+    docker:
+      - image: circleci/node:14-browsers
     steps:
       - checkout
       - attach_workspace:
@@ -356,7 +361,8 @@ jobs:
           destination: test-artifacts
 
   test-e2e-firefox-metrics:
-    executor: node-browsers
+    docker:
+      - image: circleci/node:14-browsers
     steps:
       - checkout
       - run:
